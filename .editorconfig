@@ -1,0 +1,68 @@
+# EditorConfig — padrão de arquivo da casa.
+#
+# ⚠️ ESTE ARQUIVO É IDÊNTICO, byte a byte, em todos os repositórios da casa, e
+# isso é CHECADO: tools/check_vscode_sync.py (no APF-DADOS) compara o md5 de
+# cada um. A LISTA canônica dos repos mora lá, em REPOS_IRMAOS — de propósito
+# NÃO aqui: enumerar os nomes neste cabeçalho obrigaria a editar N arquivos toda
+# vez que a casa ganhasse um repo, que é a duplicação que este trabalho combate.
+#
+# Duas vezes a declaração deste cabeçalho já esteve errada, e por isso ela virou
+# teste:
+#   · a 1ª versão dizia "mesmo arquivo nos outros repos" e já nascia divergente
+#     (a da APF estava sem `woff,woff2`);
+#   · quando a casa passou de 5 para 8 repos (23/07/2026), o texto dizia 8 e o
+#     checker verificava 5 — garantia cobrindo menos do que afirmava.
+#
+# Para mudar: edite na APF, rode a task "APF: conferir sync .vscode ↔ workspace"
+# (ela diz exatamente quais repos ficaram para trás) e copie por cima. Lido
+# nativamente por prettier/ruff e pela extensão editorconfig.editorconfig.
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 2
+
+[*.py]
+indent_size = 4
+
+[*.md]
+# Markdown usa 2 espaços no fim da linha como quebra dura — aparar quebraria o
+# render de tabelas e citações nos docs de valuation.
+trim_trailing_whitespace = false
+
+[*.{csv,tsv}]
+# Dados nunca são reformatados: no APF o SOURCE_OF_TRUTH.csv é fonte primária
+# (regra nº 1) e os demais são SAÍDA de extrator — normalizar vira diff falso
+# que a próxima rodada desfaz, ou pior, altera um número.
+trim_trailing_whitespace = false
+insert_final_newline = unset
+end_of_line = unset
+
+# Binários e assets. O enum precisa cobrir o que EXISTE nos repos: extensão de
+# fora cai no [*] e leva charset utf-8 + newline final + trim — em binário isso
+# é corrupção silenciosa. Inventariado em 22/07/2026: .key e .pptx (Keynote e
+# PowerPoint dos vendedores, em 01_ORIGINAIS), .ico e .woff (apofenia-os),
+# .svg (mateus-os).
+[*.{xlsx,xls,xlsm,docx,doc,pptx,ppt,key,pages,numbers,pdf,png,jpg,jpeg,gif,webp,svg,ico,zip,gz,woff,woff2,ttf,otf,eot,mp3,mp4,mov,wav}]
+charset = unset
+end_of_line = unset
+insert_final_newline = unset
+trim_trailing_whitespace = unset
+indent_style = unset
+indent_size = unset
+
+# ⛔ FONTES INTOCÁVEIS (regra inviolável nº 1 do APF). Nada aqui é normalizado,
+# qualquer que seja a extensão — nem o .md e o .csv que convivem com os PDFs.
+# Bloco sem efeito nos outros repos (a pasta não existe lá); fica para o arquivo
+# permanecer idêntico nos cinco.
+[01_ORIGINAIS/**]
+charset = unset
+end_of_line = unset
+insert_final_newline = unset
+trim_trailing_whitespace = unset
+indent_style = unset
+indent_size = unset
